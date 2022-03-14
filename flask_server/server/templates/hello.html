@@ -14,4 +14,12 @@
     <input type="submit" value="Submit">
   </form>
 
+  <hr />
+
+  {% for i in todo_table_data %}
+    <ul>
+      {{ i.content }}
+    </ul>
+  {% endfor %}
+
 {% endblock content %}
