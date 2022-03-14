@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <form action="/todo" method="post">
+    {{ form_some_name.hidden_tag() }}
+    {{ form_some_name.content }}
+    {{ form_some_name.submit }}
+  </form>
+{% endblock content %}
