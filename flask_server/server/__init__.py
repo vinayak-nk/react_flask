@@ -9,38 +9,12 @@ db = SQLAlchemy(app)
 # db.create_all()
 
 from server.models import TodoModel
+from server.routes import init_app_route
+init_app_route(app)
 
-def todo_serializer(todo):
-  return {
-    'id': todo.id,
-    'content': todo.content,
-  }
 
-@app.route('/api', methods=['GET'])
-def index():
-  return jsonify(list(map(todo_serializer, TodoModel.query.all())))
 
-@app.route('/api/<int:id>', methods=['GET'])
-def show_todo(id):
-  return jsonify(list(map(todo_serializer, TodoModel.query.filter_by(id=id))))
 
-@app.route('/api/create', methods=['POST'])
-def create():
-  request_data = json.loads(request.data)
-  table_instance = TodoModel(content=request_data['content'])
-  
-  db.session.add(table_instance)
-  db.session.commit()
-  
-  return {'201': 'todo created successfully'} 
-
-@app.route('/api/<int:id>', methods=['DELETE'])
-def delete_data(id):
-  # request_data = json.loads(request.data)
-  TodoModel.query.filter_by(id=int(id)).delete()
-  db.session.commit()
-  
-  return {'204': 'todo deleted successfully'}
 
 
 # flask templates
