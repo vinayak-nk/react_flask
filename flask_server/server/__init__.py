@@ -20,6 +20,10 @@ def todo_serializer(todo):
 def index():
   return jsonify(list(map(todo_serializer, TodoModel.query.all())))
 
+@app.route('/api/<int:id>', methods=['GET'])
+def show_todo(id):
+  return jsonify(list(map(todo_serializer, TodoModel.query.filter_by(id=id))))
+
 @app.route('/api/create', methods=['POST'])
 def create():
   request_data = json.loads(request.data)
@@ -28,10 +32,18 @@ def create():
   db.session.add(table_instance)
   db.session.commit()
   
-  return {'201': 'todo created successfully'}
+  return {'201': 'todo created successfully'} 
+
+@app.route('/api/<int:id>', methods=['DELETE'])
+def delete_data(id):
+  # request_data = json.loads(request.data)
+  TodoModel.query.filter_by(id=int(id)).delete()
+  db.session.commit()
   
+  return {'204': 'todo deleted successfully'}
 
 
+# flask templates
 @app.route('/', methods=['GET', 'POST'])
 def hello_wolrd():
   todo_table_data = TodoModel.query.all()

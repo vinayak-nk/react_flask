@@ -1,11 +1,22 @@
 import React from 'react'
-import { TodoPage } from './Pages/TodoPage'
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 
+import { TodoPage, Show } from './Pages/TodoPage'
+import './App.css'
 
 export default function App() {
   return (
     <div className='App'>
-      <TodoPage />
+      <BrowserRouter>
+        <Routes>
+          <Route exact path='/' element={<TodoPage />} />
+          <Route path='/:id' element={<Show />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   )
 }
